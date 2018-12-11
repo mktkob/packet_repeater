@@ -242,6 +242,7 @@ void watalab_do_client(int fd, int sock)
     size = read(fd, buf, 1024);
     buf[size] = '\x00';
     write(sock, buf, size);
+    printf("USB buf size: %d\n", size);
   }
 
 
@@ -252,6 +253,7 @@ void watalab_do_client(int fd, int sock)
     size = read(sock, buf, 1024);
     buf[size] = '\x00';
     write(fd, buf, size);
+    printf("buf size: %d\n", size);
   }
 }
 
@@ -270,6 +272,8 @@ int main(int argc, char** argv)
     exit(-1);
   }
 
+  printf("Frontend Started\n");
+
   strcpy(serial_name, argv[1]);
   strcpy(server_name, argv[2]);
   port = atoi(argv[3]);
@@ -277,6 +281,9 @@ int main(int argc, char** argv)
 
   fd = watalab_open_serial(serial_name);
   sock = watalab_tcp_connect(server_name, port);
+
+  printf("fd: %d\n", fd);
+  printf("sock: %d\n", sock);
 
 
   while(true){
