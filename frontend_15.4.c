@@ -38,8 +38,8 @@ int watalab_open_serial(char *device)
   tty.c_cflag = CS8|CLOCAL|CREAD;
   tty.c_cc[VMIN] = 1;
   tty.c_cc[VTIME] = 0;
-  cfsetospeed(&tty, B115200);
-  cfsetispeed(&tty, B115200);
+  cfsetospeed(&tty, B9600);
+  cfsetispeed(&tty, B9600);
   tcflush(fd, TCIFLUSH);
   tcsetattr(fd, TCSANOW, &tty);
 
