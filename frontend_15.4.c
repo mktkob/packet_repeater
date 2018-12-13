@@ -238,6 +238,8 @@ void watalab_do_client(int fd, int sock)
   printf("sock: %d\n", sock);
 
   select(max_sock + 1, &fds, NULL, NULL, NULL);
+  
+  printf("After Select\n");
 
   if(FD_ISSET(fd, &fds) != 0){
     char buf[1024];
