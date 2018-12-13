@@ -170,45 +170,40 @@ int watalab_tcp_connect(const char *hostname, int port)
 
 
 
-void watalab_do_server(int sock_listen)
-{
-  fd_set fds;
-  int max_sock;
-  int i;
-
-  watalab_set_fds(&fds, sock_listen);
-  max_sock = watalab_get_max_sock();
-
-  if(max_sock < sock_listen){
-    max_sock = sock_listen;
-  }
-
-  select(max_sock + 1, &fds, NULL, NULL, NULL);
-
-  if(FD_ISSET(sock_listen, &fds) != 0){
-    int sock;
-    sock = watalab_accept(sock_listen);
-    watalab_add(sock);
-  }
-
-  
-  for(i = 0; i < MAX_CLIENTS; i++){
-    if(g_clients[i] == 0){
-      continue;
+void watalab_do_server(int sock_listen) {
+    fd_set fds;
+    int max_sock;
+    int i;
+    
+    watalab_set_fds(&fds, sock_listen);
+    max_sock = watalab_get_max_sock(); 
+    if(max_sock < sock_listen){
+        max_sock = sock_listen;
+    } 
+    
+    select(max_sock + 1, &fds, NULL, NULL, NULL); 
+    if(FD_ISSET(sock_listen, &fds) != 0){
+        int sock;
+        sock = watalab_accept(sock_listen);
+        watalab_add(sock);
+    } 
+    
+    for(i = 0; i < MAX_CLIENTS; i++){
+        if(g_clients[i] == 0){
+            continue;
+        } 
+        if(FD_ISSET(i, &fds) != 0){
+            char buf[1024];
+            int ret = recv(i, buf, 1024, 0);
+            printf("Client number %d", i);
+            if(ret > 0){ //	write(1, buf, ret);
+                watalab_broadcast(buf, ret, i);
+                printf("Broadcast");
+            }else{ 
+                printf("Else");
+            } 
+        }
     }
-
-    if(FD_ISSET(i, &fds) != 0){
-      char buf[1024];
-      int ret = recv(i, buf, 1024, 0);
-      
-      if(ret > 0){
-	//	write(1, buf, ret);
-	watalab_broadcast(buf, ret, i);
-      }else{
-
-      }
-    }
-  }
 }
 
 
