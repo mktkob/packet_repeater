@@ -257,7 +257,7 @@ void watalab_do_client(int fd, int sock)
     size = read(sock, buf, 1024);
     buf[size] = '\x00';
     write(fd, buf, size);
-    printf("buf size: %d\n", size);
+    printf("Sock buf size: %d\n", size);
   }
 }
 
