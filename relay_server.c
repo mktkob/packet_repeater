@@ -186,6 +186,7 @@ void watalab_do_server(int sock_listen) {
         int sock;
         sock = watalab_accept(sock_listen);
         watalab_add(sock);
+        printf("Socket number %d\n", sock);
     } 
     
     for(i = 0; i < MAX_CLIENTS; i++){
@@ -195,12 +196,12 @@ void watalab_do_server(int sock_listen) {
         if(FD_ISSET(i, &fds) != 0){
             char buf[1024];
             int ret = recv(i, buf, 1024, 0);
-            printf("Client number %d", i);
+            printf("Client number %d\n", i);
             if(ret > 0){ //	write(1, buf, ret);
                 watalab_broadcast(buf, ret, i);
-                printf("Broadcast");
+                printf("Broadcast\n");
             }else{ 
-                printf("Else");
+                printf("Else\n");
             } 
         }
     }
