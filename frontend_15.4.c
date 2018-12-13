@@ -237,7 +237,7 @@ void watalab_do_client(int fd, int sock)
   printf("fd: %d\n", fd);
   printf("sock: %d\n", sock);
   
-  retval = select(max_sock + 1, &fds, NULL, NULL, NULL);
+  select(max_sock + 1, &fds, NULL, NULL, NULL);
   
   printf("After Select\n");
 
